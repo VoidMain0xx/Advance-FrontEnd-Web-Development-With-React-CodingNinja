@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <title>React App</title>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        let arr = []
+        let Ref = React.createRef();
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const name = event.target.elements.name.value;
+            const marks = event.target.elements.marks.value;
+            arr.push(name, marks);
+            console.log(arr);
+        }
+
+        const Form = () =>
+
+
+            <>
+                <h1>Students' Form</h1>
+                <form onSubmit={handleSubmit}>
+                    <input type="text" placeholder='Name' name="name" />
+                    <input type="Number" placeholder='marks' name="marks" />
+                    <button >Sumbit</button>
+                </form>
+            </>;
+
+        const Result = () =>
+            <p>
+                <table border='1px'>
+                    <thead>
+                        <tr>
+                            <th>Students Name</th>
+                            <th>marks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {arr.map(( index) => (
+                                <tr key={index}>
+                                    <td>{arr[index]}</td>
+                                    <td>{arr[index]}</td>
+                                </tr>
+                            ))}
+                        </tr>
+                    </tbody>
+                </table>
+            </p>;
+
+        const App = () => (
+            <>
+                <Form />
+                <Result />
+            </>
+        );
+
+        const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+        rootElement.render(<App />);
+    </script>
+</body>
+
+</html>

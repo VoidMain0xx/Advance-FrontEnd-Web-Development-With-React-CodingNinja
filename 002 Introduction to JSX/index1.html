@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+</body>
+<script type="text/babel">
+ 
+//  var fahrenheit = 12 ;
+
+function fahrenheit(fahrenheit){
+    return fahrenheit 
+ }
+
+ 
+ function tocelcius(fahrenheit){
+    const celcius = (fahrenheit - 32) * (5/9);
+    return celcius 
+ }
+
+ function App(){
+    return (
+        <>
+        <h1>Temperature Conveter</h1>
+        <p>Temperature in fahrenheit: {fahrenheit(12)}</p>
+        <p>Temperature in celcius: {tocelcius(12)}</p>
+        </>
+    )
+ }
+
+ ReactDOM.createRoot(document.getElementById("root")).render(< App />);
+
+</script>
+
+</html>

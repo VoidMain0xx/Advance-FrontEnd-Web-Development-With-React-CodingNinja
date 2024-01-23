@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>React App</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+   <script type="text/babel">
+  let customers = [];
+  const capacity = 25;
+  let seatsLeft = 25;
+
+  const Form = ({ onSubmit }) => {
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      const guestCount = parseInt(e.target.guestCount.value);
+      const name = e.target.name.value;
+      const phone = e.target.phone.value;
+
+      if (guestCount > seatsLeft) {
+        alert("Guest count exceeds capacity.");
+        return;
+      }
+
+      if (customers.some((customer) => customer.name === name)) {
+        alert("Customer already exists.");
+        return;
+      }
+
+      seatsLeft -= guestCount;
+
+      const newCustomer = {
+        name,
+        phone,
+        count: guestCount,
+        checkin: new Date().toLocaleTimeString(),
+        checkout: "",
+      };
+
+      customers.unshift(newCustomer);
+
+      e.target.reset();
+
+      onSubmit();
+    };
+
+    return (
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Guest Count:</label>
+          <input type="number" name="guestCount" required />
+        </div>
+        <div>
+          <label>Name:</label>
+          <input type="text" name="name" required />
+        </div>
+        <div>
+          <label>Phone:</label>
+          <input type="text" name="phone" required />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    );
+  };
+
+  const Table = ({ onDelete, onCheckout }) => (
+    <table border="1px" style={{ margin: "auto" }}>
+      <thead>
+        <tr>
+          <th>Count</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Check In</th>
+          <th>Check Out</th>
+          <th>Status</th>
+          <th>Remove Entry</th>
+        </tr>
+      </thead>
+      <tbody>
+        {customers.map((customer, index) => (
+          <tr key={index} className={customer.checkout ? "served" : "dining"}>
+            <td>{customer.count}</td>
+            <td>{customer.name}</td>
+            <td>{customer.phone}</td>
+            <td>{customer.checkin}</td>
+            <td>{customer.checkout}</td>
+            <td>{customer.checkout ? "Served" : "Dining"}</td>
+            <td>
+              <button onClick={() => onDelete(index)}>Delete</button>
+              {!customer.checkout && (
+                <button onClick={() => onCheckout(index)}>
+                  Click to Checkout
+                </button>
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+
+  const App = () => {
+    const handleDelete = (index) => {
+      const customer = customers[index];
+      customers.splice(index, 1);
+
+      if (!customer.checkout) {
+        seatsLeft += customer.count;
+      }
+
+      renderApp();
+    };
+
+    const handleCheckout = (index) => {
+      const customer = customers[index];
+
+      customer.checkout = new Date().toLocaleTimeString();
+
+      seatsLeft += customer.count;
+
+      renderApp();
+    };
+
+    const renderApp = () => {
+      ReactDOM.createRoot(document.getElementById("root")).render(
+        <>
+          <div className="App" style={{ textAlign: "center" }}>
+            <div>
+              <h2>Total Capacity: {capacity}</h2>
+              <h2>Seats Left: {seatsLeft}</h2>
+            </div>
+            <Form onSubmit={renderApp} />
+            <Table onDelete={handleDelete} onCheckout={handleCheckout} />
+          </div>
+        </>
+      );
+    };
+
+    return renderApp();
+  };
+
+  const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+  rootElement.render(<App />);
+</script>
+
+
+  </body>
+</html>

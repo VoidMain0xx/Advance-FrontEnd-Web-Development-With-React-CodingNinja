@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="root">
+
+    </div>
+</body>
+<script type="text/babel">
+
+    const obj = [
+        { id: 1, name: 'iPhone14', sellingPrice: 1200, Quantity: 22 },
+        { id: 2, name: 'iPad Pro', sellingPrice: 800, Quantity: 18 },
+        { id: 3, name: 'Macbook Air', sellingPrice: 1500, Quantity: 7 },
+        { id: 4, name: 'Samsung S23', sellingPrice: 1100, Quantity: 16 },
+        { id: 5, name: 'Del Inspiron', sellingPrice: 1200, Quantity: 5 },
+        { total: 5800 }
+    ];
+
+    function App() {
+
+        // Calculate total revenue
+        const totalRevenue = obj.reduce((total, product) => total + product.price * product.quantity, 0);
+
+        return (<>
+            <h1>Records of Sold Item</h1>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Name</th>
+                        <th>Selling Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {obj.map((object) => {
+                        <tr key={object.id}>
+                            <td>{object.name}</td>
+                            <td>{object.sellingPrice}</td>
+                            <td>{object.Quantity}</td>
+                        </tr>
+                    })}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colSpan="3" style={{ textAlign: 'right' }}>Total:</td>
+                        <td>${totalRevenue}</td>
+                    </tr>
+
+                </tfoot>
+            </table>
+
+        </>)
+    }
+
+
+    const result = ReactDOM.createRoot(document.getElementById("root"))
+
+    result.render(<App />)
+
+</script>
+
+</html>
